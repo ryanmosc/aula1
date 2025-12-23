@@ -8,7 +8,7 @@ spring:
 
   # Porta do Servidor Web
   server:
-    port: 8080 # A aplicação rodará em http://localhost:8080
+    port: 8085 # A aplicação rodará em http://localhost:8080
 
   # =================================================================
   # Configuração do Banco de Dados H2 (Em Memória)
