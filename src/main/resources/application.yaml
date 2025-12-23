@@ -1,0 +1,62 @@
+# =================================================================
+# Spring Boot: Configuração Geral e Aplicação
+# =================================================================
+spring:
+  # Define o nome da aplicação.
+  application:
+    name: api-externa
+
+  # Porta do Servidor Web
+  server:
+    port: 8080 # A aplicação rodará em http://localhost:8080
+
+  # =================================================================
+  # Configuração do Banco de Dados H2 (Em Memória)
+  # =================================================================
+  datasource:
+    # URL de conexão: Cria um banco em memória chamado 'api-externa-db'.
+    # O banco será destruído ao finalizar a aplicação.
+    url: jdbc:h2:mem:api-externa-db
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+    # Configurações do Pool de Conexões (HikariCP)
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      pool-name: HikariPool-api-externa
+
+  # =================================================================
+  # Configuração do JPA (Hibernate)
+  # =================================================================
+  jpa:
+    hibernate:
+      # update: Tenta atualizar o schema sem derrubar dados (bom para dev).
+      # create-drop: Cria e destrói o schema a cada restart (bom para testes).
+      ddl-auto: update
+    show-sql: true # Exibe as consultas SQL geradas no console.
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        format_sql: true # Formata o SQL para melhor leitura.
+
+  # =================================================================
+  # Configuração do Console Web H2
+  # =================================================================
+  h2:
+    # Habilita o console do H2.
+    console:
+      enabled: true
+      # Caminho de acesso: http://localhost:8080/h2-console
+      path: /h2-console
+      settings:
+        web-allow-others: false # Recomendado desabilitar para segurança em ambientes de produção.
+
+# =================================================================
+# Configuração de Logs
+# =================================================================
+logging:
+  level:
+    # Logs detalhados para ver as queries do Hibernate
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicExtractor: trace # Para ver os parâmetros vinculados
