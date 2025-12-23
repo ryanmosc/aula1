@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubunutu-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout codigo
@@ -16,8 +16,8 @@ jobs:
       - name: Login docker hub
         uses: docker/login-action@v3
         with:
-          username: ${{  secrests.DOCKERHUB_USERNAME }}
-          password: ${{ secrests.DOCKERHUB_PASSWORD }}
+          username: ${{  secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: build and push image
         uses: docker/build-push-action@v5
@@ -38,4 +38,4 @@ jobs:
             cd /opt/apiexterna
             docker compose down -v
             docker compose pull
-            docker compose up
+            docker compose up -d
