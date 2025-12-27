@@ -28,6 +28,7 @@ jobs:
             ryanmosc/apiexterna:latest
             ryanmosc/apiexterna:${{ github.sha }}
   cd:
+    needs: ci
     runs-on: ubuntu-latest
     steps:
       - name: deploy on vps
