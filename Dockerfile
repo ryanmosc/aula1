@@ -1,16 +1,21 @@
-# Stage 1: build
-FROM maven:3.9.5-eclipse-temurin-17 AS build
-WORKDIR /app
+#PRIMEIRO ESTAGIO
 
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
+FROM maven:3.8.7-eclipse-temurin-17 AS build
+
+WORKDIR /app
 
 COPY . .
-RUN mvn package -DskipTests
 
-# Stage 2: runtime
-FROM eclipse-temurin:17-jdk-alpine
+RUN mvn clean package
+
+#Segundo estagio
+
+FROM eclipse-temurin:17-jre-alpine
+
 WORKDIR /app
+
 COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
+
+EXPOSE 8080:8080
+
 ENTRYPOINT ["java", "-jar", "app.jar"]

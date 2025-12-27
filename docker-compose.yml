@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16
+    container_name: banco_de_dados
+    environment:
+      POSTGRES_DB: teste
+      POSTGRES_USER: ryan
+      POSTGRES_PASSWORD: q1w2e3
+    networks:
+      backend:
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  api:
+    depends_on:
+      db:
+        condition: service_started
+    container_name: api_java
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://dbdd:5432/teste
+      SPRING_DATASOURCE_USERNAME: ryan
+      SPRING_DATASOURCE_PASSWORD: q1w2e3
+
+networks:
+   backend:
+     driver: bridge
+
+volumes:
+  pgdata:

@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  ci:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,7 +27,9 @@ jobs:
           tags: |
             ryanmosc/apiexterna:latest
             ryanmosc/apiexterna:${{ github.sha }}
-
+  cd:
+    runs-on: ubuntu-latest
+    steps:
       - name: deploy on vps
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -36,6 +38,6 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             cd /opt/apiexterna
-            docker compose down -v
+            docker compose down 
             docker compose pull
             docker compose up -d
